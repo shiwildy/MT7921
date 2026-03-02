@@ -2,5 +2,5 @@
 Mediatek MT7921 Drivers for Windows.
 
 ## Compatibility
-- Windows 10+
-- Windows Server 2016+
+- Windows 10
+- Windows 11

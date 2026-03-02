@@ -1,15 +1,12 @@
 @echo off
 
-:: BatchGotAdmin
 :-------------------------------------
-REM  --> Check for permissions
-    IF "%PROCESSOR_ARCHITECTURE%" EQU "amd64" (
+IF "%PROCESSOR_ARCHITECTURE%" EQU "amd64" (
 >nul 2>&1 "%SYSTEMROOT%\SysWOW64\cacls.exe" "%SYSTEMROOT%\SysWOW64\config\system"
 ) ELSE (
 >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
 )
 
-REM --> If error flag set, we do not have admin.
 if '%errorlevel%' NEQ '0' (
     echo Requesting administrative privileges...
     goto UACPrompt
@@ -28,11 +25,16 @@ if '%errorlevel%' NEQ '0' (
     pushd "%CD%"
     CD /D "%~dp0"
 
-::***************************************************************************
 for /f "delims=" %%i in ('dir .\Source\*.INF /s/b') do (
-start /w pnputil.exe -i -a "%%~fi"
-if /i not "%errorlevel%"=="0" goto :NG
+    start /w pnputil.exe -i -a "%%~fi"
+    if /i not "%errorlevel%"=="0" goto :NG
 )
+
+for /f "delims=" %%i in ('dir .\Bluetooth\*.INF /s/b') do (
+    start /w pnputil.exe -i -a "%%~fi"
+    if /i not "%errorlevel%"=="0" goto :NG
+)
+
 goto :end
 
 :NG
@@ -40,4 +42,3 @@ echo Install Fail....
 exit /b1
 
 :end
-

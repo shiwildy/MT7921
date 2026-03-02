@@ -25,7 +25,7 @@ if '%errorlevel%' NEQ '0' (
     pushd "%CD%"
     CD /D "%~dp0"
 
-for /f "delims=" %%i in ('dir .\Source\*.INF /s/b') do (
+for /f "delims=" %%i in ('dir .\Wifi\*.inf /s/b') do (
     start /w pnputil.exe -i -a "%%~fi"
     if /i not "%errorlevel%"=="0" goto :NG
 )
